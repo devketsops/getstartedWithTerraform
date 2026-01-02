@@ -7,9 +7,6 @@ terraform {
   }
 }
 
-variable "do_token" {}
-variable "pvt_key" {} # Ensure this matches the name used in main.tf
-
 provider "digitalocean" {
   token = var.do_token
 }
