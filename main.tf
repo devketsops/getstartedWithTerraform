@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "control_plane" {
   size       = "s-2vcpu-2gb" # 2 vCPU, 2GB RAM
   vpc_uuid   = digitalocean_vpc.kubernetes_vpc.id
   ssh_keys   = [data.digitalocean_ssh_key.k8s_key.id]
-  user_data  = file("${path.module}/scripts/k8s_setup.sh")
+  user_data  = file("${path.module}/k8s_setup.sh")
 }
 
 # 3. Node Droplets (Nodes)
@@ -23,5 +23,5 @@ resource "digitalocean_droplet" "nodes" {
   size       = "s-1vcpu-2gb" # 1 vCPU, 2GB RAM
   vpc_uuid   = digitalocean_vpc.kubernetes_vpc.id
   ssh_keys   = [data.digitalocean_ssh_key.k8s_key.id]
-  user_data  = file("${path.module}/scripts/k8s_setup.sh")
+  user_data  = file("${path.module}/k8s_setup.sh")
 }
