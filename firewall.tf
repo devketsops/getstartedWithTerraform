@@ -2,7 +2,6 @@
 resource "digitalocean_firewall" "control_plane" {
   name        = "control-plane-firewall"
   
-  # Links to the control_plane droplet defined in main.tf
   droplet_ids = [digitalocean_droplet.control_plane.id]
 
   # SSH Access: Restricted to your management range
@@ -54,11 +53,7 @@ resource "digitalocean_firewall" "control_plane" {
 resource "digitalocean_firewall" "node" {
   name        = "node-firewall"
   
-  # Links to all worker droplets created with 'count' in main.tf
   droplet_ids = digitalocean_droplet.nodes[*].id
-
-  # Ensure worker nodes are created before applying firewall
-  depends_on = [digitalocean_droplet.nodes]
 
   # SSH Access: Restricted to your management range
   inbound_rule {
