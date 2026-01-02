@@ -13,22 +13,17 @@ output "worker_node_public_ips" {
   value       = digitalocean_droplet.nodes[*].ipv4_address
 }
 
-output "worker_node_names" {
-  description = "Names of worker nodes"
-  value       = digitalocean_droplet.nodes[*].ipv4_address
+output "worker_node_private_ips" {
+  description = "Private IPs of worker nodes"
+  value       = digitalocean_droplet.nodes[*].ipv4_address_private
 }
 
-output "get_kubeconfig_command" {
-  description = "Command to copy kubeconfig locally"
-  value       = "scp root@${digitalocean_droplet.control_plane.ipv4_address}:/root/.kube/config ~/.kube/config-do-cluster"
+output "ssh_control_plane" {
+  description = "SSH command for control plane"
+  value       = "ssh root@${digitalocean_droplet.control_plane.ipv4_address}"
 }
 
-output "verify_cluster_command" {
-  description = "Command to verify cluster is ready"
-  value       = "ssh root@${digitalocean_droplet.control_plane.ipv4_address} 'kubectl get nodes'"
-}
-
-output "verify_calico_command" {
-  description = "Command to verify Calico installation"
-  value       = "ssh root@${digitalocean_droplet.control_plane.ipv4_address} 'kubectl get pods -n calico-system'"
+output "ssh_nodes" {
+  description = "SSH commands for worker nodes"
+  value       = [for node in digitalocean_droplet.nodes : "ssh root@${node.ipv4_address}"]
 }
